@@ -1,0 +1,266 @@
+{{define "navbar"}}
+<style>
+    /* استایل‌های جذاب‌سازی رنگ و خط زیرین منوها */
+    #desktopMenu .nav-link {
+        position: relative;
+        transition: color 0.3s ease;
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+    #desktopMenu .nav-link:hover, 
+    #desktopMenu .nav-link:focus,
+    #desktopMenu .show > .nav-link {
+        color: #198754 !important; 
+    }
+    #desktopMenu .nav-link::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: 0;
+        left: 50%;
+        background-color: #198754;
+        transition: all 0.3s ease;
+        transform: translateX(-50%);
+    }
+    #desktopMenu .nav-link:hover::after,
+    #desktopMenu .show > .nav-link::after {
+        width: 80%; 
+    }
+    .dropdown-menu .dropdown-item {
+        transition: all 0.25s ease;
+        border-right: 3px solid transparent;
+    }
+    .dropdown-menu .dropdown-item:hover {
+        background-color: #f8f9fa !important; 
+        color: #198754 !important; 
+        padding-right: 20px !important; 
+        border-right-color: #198754; 
+    }
+
+    /* باز شدن دراپ‌داون با هاور ماوس در دسکتاپ و مهار کردن عرض آن */
+    @media (min-width: 992px) {
+        /* تغییر موقعیت والد به ریلیتیو برای تراز شدن منوی بازشو */
+        .navbar-nav {
+            position: relative;
+        }
+        
+        #desktopMenu .nav-item.dropdown:hover .dropdown-menu {
+            display: block;
+            opacity: 1;
+            visibility: visible;
+            transform: scaleY(1);
+        }
+        
+        /* اصلاح ساختار مگامنو برای جلوگیری از بیرون زدن */
+        #desktopMenu .dropdown-menu {
+            display: block;
+            opacity: 0;
+            visibility: hidden;
+            transform: scaleY(0.9);
+            transform-origin: top;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            
+            /* تنظیمات ابعاد جدید جهت فیت شدن کامل درون نوبار */
+            width: 700px !important; 
+            left: 50% !important;
+            right: auto !important;
+            transform: translateX(-50%) scaleY(0.9); /* تراز دقیق در مرکز منو */
+        }
+        
+        #desktopMenu .nav-item.dropdown:hover .dropdown-menu {
+            transform: translateX(-50%) scaleY(1); /* وضعیت نهایی بعد از هاور */
+        }
+    }
+</style>
+
+<div class="position-fixed top-0 start-0 end-0" style="z-index: 1030;">
+    <div class="container mt-3">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <nav class="navbar navbar-expand-lg navbar-light bg-white rounded-4 shadow-lg py-3 px-4">
+                    <div class="container-fluid p-0">
+
+                        <a class="navbar-brand fw-bold text-success d-flex align-items-center" href="/host">
+                            <img src="/host/assets/picture/sun.jpg" class="alert-sun-logo brand-logo" alt="Sun Logo">
+                            <span>خورشید هاست</span>
+                        </a>
+                        <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas"
+                            data-bs-target="#mobileSidebar">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="desktopMenu">
+                            <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-2">
+                                <li class="nav-item"><a class="nav-link text-dark" href="/host/">خانه</a></li>
+
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link  text-dark " href="#" data-bs-toggle="dropdown"
+                                        data-bs-auto-close="outside">
+                                        محصولات
+                                    </a>
+                                    <div class="dropdown-menu shadow-lg border-0 rounded-4 mt-2 p-4">
+                                        <div class="row g-4">
+                                            <div class="col-md-6 border-start">
+                                                <h6 class="fw-bold text-success mb-3 pb-2 border-bottom"><i
+                                                        class="bi bi-server me-2"></i>زیرساخت و میزبانی</h6>
+                                                <ul class="list-unstyled d-flex flex-column gap-1 small">
+                                                    <li><a class="dropdown-item py-2 rounded-3 text-dark"
+                                                            href="/host/products#vps-section"><i
+                                                                class="bi bi-cpu me-2 text-success"></i>سرورهای مجازی
+                                                            ابری (VPS)</a></li>
+                                                    <li><a class="dropdown-item py-2 rounded-3 text-dark"
+                                                            href="/host/products#vps-section"><i
+                                                                class="bi bi-hdd-rack me-2 text-success"></i>سرورهای
+                                                            فیزیکی اختصاصی</a></li>
+                                                    <li><a class="dropdown-item py-2 rounded-3 text-dark"
+                                                            href="/host/products#custom-wizard"><i
+                                                                class="bi bi-sliders me-2 text-success"></i>سرور ساز
+                                                            کاستوم و سفارشی</a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="fw-bold text-primary mb-3 pb-2 border-bottom"><i
+                                                        class="bi bi-globe me-2"></i>موقعیت‌های جغرافیایی شبکه</h6>
+                                                <ul class="list-unstyled d-flex flex-column gap-1 small">
+                                                    <li><a class="dropdown-item py-2 rounded-3 text-dark"
+                                                            href="/host/products#countries-explorer"><i
+                                                                class="bi bi-geo-alt me-2 text-primary"></i>دیتاسنترهای
+                                                            خاورمیانه و آسیا</a></li>
+                                                    <li><a class="dropdown-item py-2 rounded-3 text-dark"
+                                                            href="/host/products#countries-explorer"><i
+                                                                class="bi bi-geo-alt me-2 text-primary"></i>شبکه ابری
+                                                            اتحادیه اروپا</a></li>
+                                                    <li><a class="dropdown-item py-2 rounded-3 text-dark"
+                                                            href="/host/products#countries-explorer"><i
+                                                                class="bi bi-geo-alt me-2 text-primary"></i>سرویس‌های
+                                                            لایسنس آمریکا و کانادا</a></li>
+                                                </ul>
+                                            </div>
+                                            </div>
+                                    </div>
+                                </li>
+
+                                <li class="nav-item"><a class="nav-link text-dark" href="/host/blog">وبلاگ</a></li>
+                                <li class="nav-item"><a class="nav-link text-dark" href="/host/about">درباره ما</a></li>
+                                <li class="nav-item"><a class="nav-link text-dark" href="/host/contact">تماس با ما</a>
+                                </li>
+                            </ul>
+                            <span onclick="isLogin()" class="btn btn-success px-4 rounded-pill fw-bold shadow-sm">ورود
+                                به پنل</span>
+                        </div>
+
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="offcanvas offcanvas-start bg-white text-dark" tabindex="-1" id="mobileSidebar" style="width: 280px;">
+    <div class="offcanvas-header border-bottom">
+        <img src="/host/assets/picture/sun.jpg" class="alert-sun-logo brand-logo" alt="Sun Logo">
+        <h5 class="offcanvas-title fw-bold text-success">خورشید هاست </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body d-flex flex-column ">
+        <ul class="nav nav-pills flex-column gap-2">
+            <li class="nav-item"><a class="nav-link text-dark" href="/host">خانه</a></li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-dark" href="#" data-bs-toggle="dropdown"
+                    data-bs-auto-close="outside">
+                    دپارتمان‌های خورشید هاست
+                </a>
+                <div class="dropdown-menu w-100 shadow-lg border-0 rounded-4 mt-2 p-4">
+                    <div class="row g-4">
+                        <div class="col-md-6 border-start">
+                            <h6 class="fw-bold text-success mb-3 pb-2 border-bottom"><i
+                                    class="bi bi-server me-2"></i>زیرساخت و میزبانی</h6>
+                            <ul class="list-unstyled d-flex flex-column gap-1 small">
+                                <li><a class="dropdown-item py-2 rounded-3 text-dark"
+                                        href="/host/products#vps-section"><i
+                                            class="bi bi-cpu me-2 text-success"></i>سرورهای مجازی ابری (VPS)</a></li>
+                                <li><a class="dropdown-item py-2 rounded-3 text-dark"
+                                        href="/host/products#vps-section"><i
+                                            class="bi bi-hdd-rack me-2 text-success"></i>سرورهای فیزیکی اختصاصی</a></li>
+                                <li><a class="dropdown-item py-2 rounded-3 text-dark"
+                                        href="/host/products#custom-wizard"><i
+                                            class="bi bi-sliders me-2 text-success"></i>سرور ساز کاستوم و سفارشی</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="fw-bold text-primary mb-3 pb-2 border-bottom"><i
+                                    class="bi bi-globe me-2"></i>موقعیت‌های جغرافیایی شبکه</h6>
+                            <ul class="list-unstyled d-flex flex-column gap-1 small">
+                                <li><a class="dropdown-item py-2 rounded-3 text-dark"
+                                        href="/host/products#countries-explorer"><i
+                                            class="bi bi-geo-alt me-2 text-primary"></i>دیتاسنترهای خاورمیانه و آسیا</a>
+                                </li>
+                                <li><a class="dropdown-item py-2 rounded-3 text-dark"
+                                        href="/host/products#countries-explorer"><i
+                                            class="bi bi-geo-alt me-2 text-primary"></i>شبکه ابری اتحادیه اروپا</a></li>
+                                <li><a class="dropdown-item py-2 rounded-3 text-dark"
+                                        href="/host/products#countries-explorer"><i
+                                            class="bi bi-geo-alt me-2 text-primary"></i>سرویس‌های لایسنس آمریکا
+                                        </a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class="nav-item"><a class="nav-link text-dark" href="/host/blog">وبلاگ آموزشی</a></li>
+            <li class="nav-item"><a class="nav-link text-dark" href="/host/about">درباره ما</a></li>
+            <li class="nav-item"><a class="nav-link text-dark" href="/host/contact">تماس با ما</a></li>
+        </ul>
+
+        <div class="pt-3 border-top text-center">
+            <span onclick="isLogin()" class="btn btn-success px-4 rounded-pill fw-bold shadow-sm">ورود به پنل</span>
+        </div>
+
+    </div>
+</div>
+<script>
+    function isLogin() {
+        event.preventDefault();
+        const isLoggedIn = localStorage.getItem("isLoggedIn");
+        if (isLoggedIn === "true") {
+            window.location.href = "/panel/";
+        } else {
+            console.log("User is not logged in.");
+            window.location.href = "/host/login";
+        }
+    }
+
+    window.alert = function (message) {
+        Swal.fire({
+            title: "تاییدیه؟",
+            text: "از انجام فرایند اطمینان دارید؟!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#198754",
+            cancelButtonColor: "#d33",
+            cancelButtonText: ` خیر `,
+            confirmButtonText: `بله!`,
+            customClass: {
+            },
+            timerProgressBar: true,
+            timer: 10500
+        }).then((result) => {
+            if (result.isConfirmed) Swal.fire({
+                theme: 'bootstrap-5',
+                title: "با موفقیت تایید شد!",
+                text: message,
+                showCloseButton: true,
+                backdrop: `
+                    rgba(0,0,123,0.4)
+                    url("/host/assets/picture/nyan-cat.gif")
+                    left top
+                    no-repeat
+                    `,
+                icon: "success"
+            });
+        });
+    };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{{end}}

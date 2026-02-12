@@ -1,0 +1,60 @@
+{{define "footer"}}
+<footer class="bg-dark text-light py-5 mt-5 border-top border-secondary">
+    <div class="container">
+        <div class="row g-4">
+            
+            <div class="col-12 col-md-5 text-center text-md-start">
+                <div class="d-flex align-items-center justify-content-center justify-content-md-start mb-3">
+                    <img src="/host/assets/picture/sun.png" class="brand-logo me-2" alt="Sun Logo" style="width: 40px; height: 40px; object-fit: contain;">
+                    <span class="fw-bold text-success fs-5">خورشید هاست</span>
+                </div>
+                <p class="text-white-50 small lh-lg">
+                    ارائه دهنده خدمات نوین میزبانی وب، سرورهای مجازی ابری و راهکارهای تخصصی شبکه با بالاترین پایداری و پشتیبانی ۲۴ ساعته در کشور.
+                </p>
+            </div>
+
+            <div class="col-6 col-md-3 offset-md-1 text-start">
+                <h6 class="fw-bold text-success mb-3">دسترسی سریع</h6>
+                <ul class="list-unstyled d-flex flex-column gap-2 small">
+                    <li><a href="/host/" class="text-decoration-none text-white-50 hover-success">خانه</a></li>
+                    <li><a href="/host/products" class="text-decoration-none text-white-50 hover-success">محصولات و سرویس‌ها</a></li>
+                    <li><a href="/host/blog" class="text-decoration-none text-white-50 hover-success">وبلاگ آموزشی</a></li>
+                    <li><a href="/host/about" class="text-decoration-none text-white-50 hover-success">درباره ما</a></li>
+                </ul>
+            </div>
+
+            <div class="col-6 col-md-3 text-start">
+                <h6 class="fw-bold text-success mb-3">ارتباط با ما</h6>
+                <ul class="list-unstyled d-flex flex-column gap-3 small text-white-50">
+                    <li><i class="bi bi-telephone text-success me-2"></i> پشتیبانی: ۰۲۱-۱۲۳۴۵۶</li>
+                    <li><i class="bi bi-envelope text-success me-2"></i> ایمیل: info@sunhost.com</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <hr class="my-4 text-secondary opacity-25">
+
+        <div class="row align-items-center">
+            <div class="col-12 col-md-6 text-center text-md-start small text-white-50 opacity-75">
+                © ۲۰۲۶ تمامی حقوق برای مجموعه خورشید هاست محفوظ است.
+            </div>
+            <div class="col-12 col-md-6 text-center text-md-end mt-2 mt-md-0">
+                <a href="#" class="text-white-50 me-3 fs-5 hover-success"><i class="bi bi-telegram"></i></a>
+                <a href="#" class="text-white-50 me-3 fs-5 hover-success"><i class="bi bi-instagram"></i></a>
+                <a href="#" class="text-white-50 fs-5 hover-success"><i class="bi bi-linkedin"></i></a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<style>
+    /* فقط افکت هاور سبز برای لینک‌ها */
+    .hover-success {
+        transition: color 0.2s ease;
+    }
+    .hover-success:hover {
+        color: #198754 !important;
+    }
+</style>
+{{end}}
