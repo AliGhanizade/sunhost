@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SunHost - Blog</title>
+    <link rel="shortcut icon" href="./assets/picture/sun.png" type="image/x-icon">
+    <link rel="stylesheet" href="./assets/css/bootstrap.rtl.min.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap.rtl.min.css.map">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+  
+</head>
+
+<body>
+{{template "navbar" .}}
+    <div style="height: 100px;"> </div>
+
+    <div class="container my-5 mt-5 py-4">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">وبلاگ آموزشی خورشید هاست</h2>
+            <p class="text-muted">آخرین مقالات تخصصی حوزه سرور، داکر و کانفیگ شبکه</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4">
+                <div class="card custom-3d-card h-100 bg-white overflow-hidden">
+                    <div class="p-4">
+                        <span class="badge bg-success-subtle text-success mb-2">داکر / کوبرنتیز</span>
+                        <h5 class="fw-bold lh-base"><a href="#" class="text-decoration-none text-dark">آموزش گام‌به‌گام
+                                راه‌اندازی ابزارهای میکروسرویس روی دیتاسنتر</a></h5>
+                        <p class="text-muted small my-3">در این مقاله یاد می‌گیرید چطور ایمیج‌های خود را بهینه‌سازی کرده
+                            و کانتینرها را مدیریت کنید...</p>
+                        <hr class="opacity-25">
+                        <div class="d-flex justify-content-between align-items-center small text-muted">
+                            <span><i class="bi bi-calendar3 me-1"></i> ۴ تیر ۱۴۰۵</span>
+                            <a href="#" class="text-success fw-bold text-decoration-none">مطالعه مقاله <i
+                                    class="bi bi-arrow-left"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="card custom-3d-card h-100 bg-white overflow-hidden">
+                    <div class="p-4">
+                        <span class="badge bg-warning-subtle text-warning mb-2">امنیت شبکه</span>
+                        <h5 class="fw-bold lh-base"><a href="#" class="text-decoration-none text-dark">جلوگیری از حملات
+                                لایه ۷ با فایروال‌های هوشمند</a></h5>
+                        <p class="text-muted small my-3">بررسی مکانیزم‌های دفاعی دیتاسنترهای مدرن برای مقابله با پکت‌های
+                            مخرب و حملات سنگین DDoS...</p>
+                        <hr class="opacity-25">
+                        <div class="d-flex justify-content-between align-items-center small text-muted">
+                            <span><i class="bi bi-calendar3 me-1"></i> ۲ تیر ۱۴۰۵</span>
+                            <a href="#" class="text-success fw-bold text-decoration-none">مطالعه مقاله <i
+                                    class="bi bi-arrow-left"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="card custom-3d-card h-100 bg-white overflow-hidden">
+                    <div class="p-4">
+                        <span class="badge bg-danger-subtle text-danger mb-2">بهینه‌سازی</span>
+                        <h5 class="fw-bold lh-base"><a href="#" class="text-decoration-none text-dark">مقایسه
+                                دیتابیس‌های ابری و کانفیگ بهینه رم‌های DDR5</a></h5>
+                        <p class="text-muted small my-3">چگونه سرعت پاسخگویی کوئری‌های سنگین دیتابیس خود را با بهره‌گیری
+                            از هارد NVMe تا ۲۰ برابر افزایش دهیم؟</p>
+                        <hr class="opacity-25">
+                        <div class="d-flex justify-content-between align-items-center small text-muted">
+                            <span><i class="bi bi-calendar3 me-1"></i> ۲۹ خرداد ۱۴۰۵</span>
+                            <a href="#" class="text-success fw-bold text-decoration-none">مطالعه مقاله <i
+                                    class="bi bi-arrow-left"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{template "footer" .}}
+
+    <script src="./assets/js/bootstrap.bundle.min.js"></script>
+    <script src="./assets/js/bootstrap.bundle.min.js.map"></script>
+
+</body>
+
+</html>
