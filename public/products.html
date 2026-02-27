@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SunHost - Product</title>
+    <link rel="shortcut icon" href="./assets/picture/sun.png" type="image/x-icon">
+    <link rel="stylesheet" href="assets/css/bootstrap.rtl.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css" />
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <style>
+
+    </style>
+</head>
+
+<body class="bg-light" style="padding-top: 130px;">
+    {{template "navbar" .}}
+    <header class="container text-center my-5 py-3">
+        <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-bold mb-2">زیرساخت توزیع‌شده
+            بین‌المللی</span>
+        <h1 class="fw-bold text-dark display-5">بستر ابری هوشمند خورشید هاست</h1>
+        <p class="text-muted col-md-8 mx-auto lh-lg">از بین ۱۲ لوکیشن برتر جهان، دیتاسنتر مورد نیاز خود را انتخاب کنید و
+            پلن‌های سخت‌افزاری فعال آن را به صورت داینامیک و آنی رندر کنید.</p>
+    </header>
+
+    <section id="custom-wizard" class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="card border-0 custom-card-neon rounded-4 p-4 bg-white">
+                    <div class="d-flex align-items-center mb-4 border-bottom pb-3">
+                        <div class="p-3 bg-success-subtle text-success rounded-3 me-3 fs-3 shadow-sm"><i
+                                class="bi bi-cpu-fill"></i></div>
+                        <div>
+                            <h3 class="fw-bold text-dark mb-1">🛠️ استودیو طراحی و معماری سرور اختصاصی (کاستوم)</h3>
+                            <p class="text-muted small mb-0">اسلایدرها به صورت پیش‌فرض بر روی پرفروش ترین توان پردازشی
+                                تنظیم
+                                شده‌اند. تغییرات قیمت به صورت زنده اعمال می‌گردد.</p>
+                        </div>
+                    </div>
+
+                    <div class="row g-4">
+                        <div class="col-md-4 ">
+                            <div class="p-3 bg-light rounded-3 border">
+                                <label class="form-label fw-bold text-dark d-flex justify-content-between mb-2">
+                                    <span><i class="bi bi-cpu text-success me-1"></i> هسته‌های پردازنده:</span>
+                                    <span id="cpuVal" class="text-success fw-bold">1 هسته</span>
+                                </label>
+                                <input type="range" class="form-range" min="1" max="16" step="1" value="1"
+                                    id="cpuSlider" oninput="updateConfig()">
+                                <div class="text-muted" style="font-size: 10px;">فرکانس پایه پردازنده: 3.9GHz Turbo
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-3 bg-light rounded-3 border">
+                                <label class="form-label fw-bold text-dark d-flex justify-content-between mb-2">
+                                    <span><i class="bi bi-memory text-success me-1"></i> مقدار حافظه رم:</span>
+                                    <span id="ramVal" class="text-success fw-bold">8 گیگابایت</span>
+                                </label>
+                                <input type="range" class="form-range" min="4" max="128" step="4" value="8"
+                                    id="ramSlider" oninput="updateConfig()">
+                                <div class="text-muted" style="font-size: 10px;">تکنولوژی ساخت حافظه: DDR5 ECC</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-3 bg-light rounded-3 border">
+                                <label class="form-label fw-bold text-dark d-flex justify-content-between mb-2">
+                                    <span><i class="bi bi-hdd-fill text-success me-1"></i> فضای ذخیره‌سازی:</span>
+                                    <span id="diskVal" class="text-success fw-bold">30 گیگابایت</span>
+                                </label>
+                                <input type="range" class="form-range" min="20" max="1000" step="10" value="30"
+                                    id="diskSlider" oninput="updateConfig()">
+                                <div class="text-muted" style="font-size: 10px;">نوع درایو سخت: NVMe Raid 10</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mt-3 ">
+                        <div class="col-md-6">
+                            <div class="p-3 bg-light rounded-3 border">
+                                <label class="form-label small fw-bold text-dark mb-2"><i
+                                        class="bi bi-hdd-rack text-success me-1"></i> نوع لایه ذخیره‌سازی دیسک:</label>
+                                <select id="diskTypeSelector" class="form-select bg-white border small"
+                                    onchange="updateConfig()">
+                                    <option value="nvme" selected>تکنولوژی Enterprise NVMe Gen4 (فوق سریع)</option>
+                                    <option value="ssd">تکنولوژی SATA SSD (استاندارد)</option>
+                                    <option value="hdd">تکنولوژی Enterprise HDD (مقرون به صرفه / آرشیو)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 ">
+                            <div class="p-3 bg-light rounded-3 border h-100">
+                                <label class="form-label small fw-bold text-dark mb-2"><i
+                                        class="bi bi-clock-history text-success me-1"></i> دوره تمدید سرویس و سیکل
+                                    پرداخت:</label>
+                                <div class="d-flex gap-3 pt-1 flex-wrap">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="billingCycle" id="cycleMonth"
+                                            value="1" checked onchange="updateConfig()">
+                                        <label class="form-check-label small" for="cycleMonth">ماهانه</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="billingCycle"
+                                            id="cycleQuarter" value="3" onchange="updateConfig()">
+                                        <label class="form-check-label small" for="cycleQuarter">سه ماهه <span
+                                                class="badge bg-danger rounded-pill" style="font-size: 9px;">۱۰٪
+                                                تخفیف</span></label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="billingCycle" id="cycleYear"
+                                            value="12" onchange="updateConfig()">
+                                        <label class="form-check-label small" for="cycleYear">سالانه <span
+                                                class="badge bg-success rounded-pill" style="font-size: 9px;">۲۰٪
+                                                تخفیف</span></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        class="row g-3 mt-4 align-items-center bg-success-subtle text-white p-4 rounded-4 mx-1 shadow-lg">
+                        <div class="col-md-6 text-center text-md-start">
+                            <h4 class="fw-bold text-success mb-1"><i class="bi bi-credit-card-2-front me-2"></i>هزینه
+                                نهایی ساخت
+                                ماشین سفارشی:</h4>
+                            <p class=" small text-success mb-0">محاسبه شفاف بر اساس نرخ ترافیک پایدار دیتاسنتر بدون
+                                هزینه‌های پنهان</p>
+                        </div>
+                        <div class="col-md-6 text-center text-md-end">
+                            <span id="totalPrice" class="display-6 text-success fw-bold me-2">7,350,000</span>
+                            <span class="fw-bold text-success small">تومان</span>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <button onclick="orderCustomServer()"
+                            class="btn btn-success btn-lg rounded-pill px-5 py-3 fw-bold shadow w-100">
+                            <i class="bi bi-cloud-plus-fill me-2"></i> رزرو و ایجاد فوری این ماشین کاستوم شده
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+
+    <section id="countries-explorer" class="container my-5 pt-4">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold text-dark"><i class="bi bi-globe-americas text-success me-2"></i>پلن‌های ابری دیتاسنتر بر
+                اساس لوکیشن کشورها</h2>
+            <p class="text-muted small">روی هر کشور کلیک کنید تا مشخصات دقیق، نوع هارد و وضعیت دات پینگ آن دیتاسنتر به
+                طور آنی رندر شود.</p>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-4 mb-4">
+                <div class="list-group shadow-sm rounded-4 border-0 bg-white p-2" id="countriesList">
+                </div>
+            </div>
+
+            <div class="col-lg-8">
+                <div class="bg-white rounded-4 shadow-sm p-4 border h-100">
+                    <div class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-4">
+                        <h4 class="fw-bold text-dark mb-0 d-flex align-items-center">
+                            <span id="selectedCountryFlag" class="fi me-2 rounded-2"></span>
+                            <span id="selectedCountryName">درحال بارگذاری لوکیشن</span>
+                        </h4>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="ping-dot bg-success ping-flash"></span>
+                            <span class="small text-muted fw-bold">وضعیت پینگ شبکه: <span id="selectedCountryPing"
+                                    class="text-success">--</span></span>
+                        </div>
+                    </div>
+
+                    <div class="row g-3" id="serversContainer">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- بخش تکمیلی محصولات جهت طولانی‌تر کردن و اسکرول بالای صفحه -->
+    <section id="extra-services" class="container my-5 pt-5 pb-5">
+        <div class="text-center mb-5">
+            <h3 class="fw-bold text-dark"><i class="bi bi-shield-check text-warning me-2"></i>خدمات جانبی و گواهی‌های
+                امنیتی خورشید هاست</h3>
+            <p class="text-muted small">افزایش اعتبار، امنیت و پایداری لایه اپلیکیشن وب‌سایت شما</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm p-4 bg-white rounded-4 h-100 text-center">
+                    <div class="fs-1 text-warning mb-3"><i class="bi bi-shield-lock"></i></div>
+                    <h5 class="fw-bold text-dark">گواهی امنیتی EV SSL</h5>
+                    <p class="text-muted small lh-lg">نمایش نام رسمی شرکت حقوقی شما در نوار آدرس مرورگر با بالاترین لایه
+                        تایید اعتبار بین‌المللی و نماد ۲ ستاره.</p>
+                    <button onclick="alert('انتقال به بخش ثبت‌نام گواهی EV')"
+                        class="btn btn-outline-warning text-dark rounded-pill w-100 fw-bold mt-auto">درخواست صدور
+                        فوری</button>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm p-4 bg-white rounded-4 h-100 text-center">
+                    <div class="fs-1 text-success mb-3"><i class="bi bi-wordpress"></i></div>
+                    <h5 class="fw-bold text-dark">هاست اختصاصی وردپرس Ultra</h5>
+                    <p class="text-muted small lh-lg">کانفیگ‌شده با وب‌سرور لایت‌اسپید اینترپرایز و افزونه کش LSCache به
+                        همراه دیسک‌های فوق پرسرعت NVMe سامسونگ.</p>
+                    <button onclick="alert('انتقال به سبد خرید هاست وردپرس')"
+                        class="btn btn-outline-success rounded-pill w-100 fw-bold mt-auto">خرید سرویس هاست</button>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm p-4 bg-white rounded-4 h-100 text-center">
+                    <div class="fs-1 text-primary mb-3"><i class="bi bi-hdd-network"></i></div>
+                    <h5 class="fw-bold text-dark">CDN ابری اختصاصی خورشید</h5>
+                    <p class="text-muted small lh-lg">پخش هوشمند پکت‌های داده سایت شما در ۳۲ پاپ‌سایت مستقر در ۵ قاره
+                        جهان جهت خنثی‌سازی حملات DDOS شبکه.</p>
+                    <button onclick="alert('فعالسازی رایگان CDN')"
+                        class="btn btn-outline-primary rounded-pill w-100 fw-bold mt-auto">تنظیم و راه‌اندازی
+                        شتاب‌دهنده</button>
+                </div>
+            </div>
+        </div>
+    </section>
+{{ template "footer" .}}
+
+    <script src="./assets/js/bootstrap.bundle.min.js"></script>
+    <script src="./assets/js/bootstrap.bundle.min.js.map"></script>
+
+    <script src="assets/js/products.js"></script>
+
+</body>
+
+</html>
