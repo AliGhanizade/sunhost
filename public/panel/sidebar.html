@@ -1,0 +1,158 @@
+{{define "sidebar"}}
+<style>
+    #sidebarMenu {
+        background-color: #0f172a !important; 
+        border-left: 1px solid rgba(255, 255, 255, 0.05); 
+    }
+
+    #sidebarMenu .nav-link {
+        color: #94a3b8 !important; 
+        display: flex;
+        align-items: center;
+        padding: 12px 16px;
+        border-radius: 12px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    #sidebarMenu .nav-link i {
+        color: #38bdf8; 
+        transition: transform 0.3s ease;
+    }
+
+    #sidebarMenu .nav-link:hover {
+        background: rgba(56, 189, 248, 0.1) !important; 
+        color: #ffffff !important; 
+        padding-right: 22px; 
+    }
+
+    #sidebarMenu .nav-link:hover i {
+        transform: scale(1.15); 
+    }
+
+    .sidebar-divider {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        margin: 1.5rem 0;
+    }
+
+    .sidebar-footer-btn {
+        transition: all 0.25s ease;
+    }
+    .sidebar-footer-btn:hover {
+        transform: translateY(-2px); 
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
+    }
+</style>
+
+<div class="col-12 d-lg-none p-3 d-flex justify-content-between align-items-center" style="background-color: #0f172a; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+    <span class="text-white fw-bold d-flex align-items-center">
+        <i class="bi bi-shield-layer-fill text-info fs-5 me-2"></i>
+        <span>پنل مدیریت خورشید هاست</span>
+    </span>
+
+    <button class="btn btn-outline-info border-2 rounded-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu">
+        <i class="bi bi-list fs-5"></i>
+    </button>
+</div>
+
+<div class="offcanvas-lg offcanvas-start col-lg-2 p-3 text-white min-vh-100" tabindex="-1" id="sidebarMenu">
+
+    <div class="offcanvas-header d-lg-none border-bottom border-secondary pb-3">
+        <h5 class="offcanvas-title text-white d-flex align-items-center">
+            <i class="bi bi-shield-layer-fill text-info me-2"></i>
+            <span>پنل مدیریت</span>
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" data-bs-target="#sidebarMenu"></button>
+    </div>
+
+    <div class="offcanvas-body flex-column p-0 w-100 h-100 d-flex justify-content-between">
+        
+        <div class="w-100">
+            <div class="text-white my-3 ps-2 d-none d-lg-block">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="bi bi-shield-layer-fill text-info fs-4"></i>
+                    <span class="fw-bold fs-5">پنل مدیریت</span>
+                </div>
+            </div>
+            
+            <div class="sidebar-divider d-none d-lg-block"></div>
+
+            <ul class="nav nav-pills flex-column gap-2 w-100">
+                <li class="nav-item">
+                    <a href="/panel/" class="nav-link">
+                        <i class="bi bi-speedometer2 me-2"></i>
+                        <span>داشبورد اصلی</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/panel/system-info" class="nav-link">
+                        <i class="bi bi-cast me-2"></i>
+                        <span>وضعیت سرور</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/panel/users" class="nav-link">
+                        <i class="bi bi-people me-2"></i>
+                        <span>کاربران فعال</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/panel/servers" class="nav-link">
+                        <i class="bi bi-server me-2"></i>
+                        <span>مدیریت سرورها</span>
+                    </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="/panel/databases" class="nav-link">
+                        <i class="bi bi-database me-2"></i>
+                        <span>پایگاه داده‌ها</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="pt-3 border-top border-secondary w-100 mt-4">
+            <div class="row g-2">
+                <div class="col-6">
+                    <span onclick="exit()" class="btn btn-info sidebar-footer-btn w-100 rounded-3 btn-sm py-2 fw-bold shadow-sm d-flex align-items-center justify-content-center gap-1">
+                        <i class="bi bi-house-door"></i> خانه
+                    </span>
+                </div>
+                <div class="col-6">
+                    <span onclick="logout()" class="btn btn-danger sidebar-footer-btn w-100 rounded-3 btn-sm py-2 fw-bold shadow-sm d-flex align-items-center justify-content-center gap-1">
+                        <i class="bi bi-box-arrow-right"></i> خروج
+                    </span>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<script>
+    window.alert = function (message) {
+        Swal.fire({
+            text: message,
+            icon: 'info',
+            confirmButtonText: 'تایید',
+            background: '#ffffff',
+            color: '#1e293b',
+            confirmButtonColor: '#38bdf8',
+            customClass: {
+                popup: 'minimal-alert-popup',
+                confirmButton: 'btn btn-info text-white px-4 rounded-3'
+            },
+            buttonsStyling: false
+        });
+    };
+    document.querySelectorAll('#sidebarMenu .nav-link').forEach(link => {
+    if(link.getAttribute('href') === window.location.pathname) {
+        link.classList.add('active'); // کلاس اکتیو باید در CSS سایدبارت تعریف شده باشد
+        link.style.background = '#c0deed'; 
+        link.style.color = '#000';
+    }
+});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{{end}}

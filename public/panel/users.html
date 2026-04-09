@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SunHost - Users</title>
+    <link rel="shortcut icon" href="./assets/picture/sun.png" type="image/x-icon">
+    <link rel="stylesheet" href="./assets/css/bootstrap.rtl.min.css">
+<link rel="stylesheet" href="./assets/css/bootstrap.rtl.min.css.map">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+
+<body class="bg-light">
+    <div class="container-fluid">
+        <div class="row">
+            {{template "sidebar" .}}
+
+
+            <div class="col-12 col-lg-10 p-3">
+                <nav class="navbar navbar-light bg-white border-bottom p-3 mb-4 rounded shadow-sm">
+                    <div class="container-fluid">
+                        <span class="navbar-brand fw-bold text-secondary">مدیریت نشست‌های فعال</span>
+                        <span id="fullname" class="fw-bold text-secondary"></span>
+                    </div>
+                </nav>
+
+                <div class="container-fluid px-2">
+                    <div id="alert-container"></div>
+
+                    <div class="card p-3 border-0 shadow-sm mb-4">
+                        <h6 class="fw-bold text-secondary mb-3"><i class="bi bi-person-plus-fill me-1"></i> افزودن کاربر
+                            جدید</h6>
+                        <form id="add-user-form" onsubmit="createUser(event)">
+                            <div class="row g-2">
+                                <div class="col-sm-5">
+                                    <input type="text" id="new-username" class="form-control form-control-sm"
+                                        placeholder="نام کاربری (مثلا: ali_99)" required>
+                                </div>
+                                <div class="col-sm-5">
+                                    <input type="password" id="new-password" class="form-control form-control-sm"
+                                        placeholder="رمز عبور" required>
+                                </div>
+                                <div class="col-sm-2">
+                                    <button type="submit"
+                                        class="btn btn-info text-white btn-sm w-100 h-100">افزودن</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>نام کاربری</th>
+                                    <th>رمز</th>
+                                    <th>وضعیت</th>
+                                    <th>ip</th>
+                                    <th>موقعیت</th>
+                                    <th>سیستم عامل</th>
+                                    <th>عملیات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="user-table-body">
+                                <tr id="user-row-1">
+                                    <td class="fw-bold">Ali_Ghanizade</td>
+                                    <td>123</td>
+                                    <td> <span class="badge bg-success">فعال</span> </td>
+
+                                    <td>192.168.1.1</td>
+                                    <td>مشهد، ایران</td>
+                                    <td>Chrome / Windows</td>
+                                    <td>Owner
+                                    </td>
+                                </tr>
+                                <tr id="user-row-2">
+                                    <td class="fw-bold">amin</td>
+                                    <td>123</td>
+                                    <td> <span class="badge bg-danger">غیر فعال</span> </td>
+                                    <td>192.168.1.2</td>
+                                    <td>تهران، ایران</td>
+                                    <td>Chrome / Windows</td>
+                                    <td><button class="btn btn-danger btn-sm"
+                                            onclick="disconnectUser('amin_ahmadi', 'user-row-2')">حذف</button>
+                                    </td>
+                                </tr>
+                                <tr id="user-row-3">
+                                    <td class="fw-bold">sara</td>
+                                    <td>123</td>
+                                    <td><span class="badge bg-warning">خاموش</span></td>
+
+                                    <td>192.168.1.3</td>
+                                    <td>اصفهان، ایران</td>
+                                    <td>Safari / macOS</td>
+                                    <td><button class="btn btn-danger btn-sm"
+                                            onclick="disconnectUser('sara_rad', 'user-row-3')">حذف</button></td>
+                                </tr>
+                                <tr id="user-row-4">
+                                    <td class="fw-bold">ali_99</td>
+                                    <td>123</td>
+                                    <td> <span class="badge bg-success">فعال</span> </td>
+
+                                    <td>192.168.1.4</td>
+                                    <td>مشهد، ایران</td>
+                                    <td>Chrome / Windows</td>
+                                    <td><button class="btn btn-danger btn-sm"
+                                            onclick="disconnectUser('ali_99', 'user-row-4')">حذف</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="./assets/js/bootstrap.bundle.min.js"></script>
+    <script src="./assets/js/bootstrap.bundle.min.js.map"></script>
+
+    <script src="./assets/js/panel.js"></script>
+</body>
+
+</html>
