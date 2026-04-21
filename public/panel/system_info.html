@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SunHost - Monitoring</title>
+    <link rel="shortcut icon" href="./assets/picture/sun.png" type="image/x-icon">
+    <link rel="stylesheet" href="./assets/css/bootstrap.rtl.min.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap.rtl.min.css.map">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* نمودارهای دونات بیرون از باکس و مینیمال */
+        .chart-container {
+            position: relative;
+            height: 160px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .metric-box {
+            border-right: 3px solid #0dcaf0;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+    <div class="container-fluid">
+        <div class="row">
+            {{template "sidebar" .}}
+
+
+            <div class="col-lg-10 col-md-12 col-sm-12 p-3">
+                <nav class="navbar bg-white border-bottom p-3 mb-4 rounded shadow-sm">
+                    <div class="container-fluid">
+
+                        <span class="navbar-brand fw-bold text-secondary">سامانه جامع مانیتورینگ</span>
+                        <button id="liveToggleBtn" class="btn btn-outline-info btn-sm fw-bold px-3"
+                            onclick="toggleConnection()">
+                            <i class="bi bi-play-circle me-1"></i> اتصال لایو (۳۰ ثانیه)
+                        </button>
+                        <span id="fullname" class="fw-bold text-secondary"></span>
+
+                    </div>
+                </nav>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-12 col-md-4">
+                        <div class="card p-3 border-0 shadow-sm metric-box">
+                            <h6 class="text-secondary mb-1">میانگین رم امروز</h6>
+                            <h4 class="m-0 fw-bold text-dark" id="summaryAvgRam">-- MB</h4>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="card p-3 border-0 shadow-sm metric-box" style="border-color: #198754;">
+                            <h6 class="text-secondary mb-1">اوج پردازش (Threads)</h6>
+                            <h4 class="m-0 fw-bold text-dark" id="summaryMaxThreads">--</h4>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="card p-3 border-0 shadow-sm metric-box" style="border-color: #ffc107;">
+                            <h6 class="text-secondary mb-1">رکوردهای ثبت‌شده</h6>
+                            <h4 class="m-0 fw-bold text-dark" id="summaryRecords">--</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-4 mb-4 text-center">
+                    <div class="col-12 col-md-4">
+                        <div class="chart-container"><canvas id="cpuDonut"></canvas></div>
+                        <span class="d-block mt-2 fw-bold text-secondary">CPU Usage</span>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="chart-container"><canvas id="ramDonut"></canvas></div>
+                        <span class="d-block mt-2 fw-bold text-secondary">RAM Usage</span>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="chart-container"><canvas id="diskDonut"></canvas></div>
+                        <span class="d-block mt-2 fw-bold text-secondary">Disk Usage</span>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm p-4">
+                    <h6 class="fw-bold text-secondary mb-4"><i class="bi bi-motherboard me-1"></i> جزئیات سخت‌افزار
+                        و
+                        شبکه (Live)</h6>
+                    <div class="row g-3" id="detailsGrid">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script src="./assets/js/bootstrap.bundle.min.js"></script>
+    <script src="./assets/js/bootstrap.bundle.min.js.map"></script>
+
+    <script src="./assets/js/panel.js"></script>
+    <script>
+        // خواندن نام کاربری از لوکال استورج
+        const localUsername = localStorage.getItem("username") || "UnknownUser";
+
+        // تنظیمات چارت برای تم روشن
+        const centerText = {
+            id: 'centerText',
+            afterDraw: (chart) => {
+                const { ctx, chartArea: { width, height } } = chart;
+                ctx.save();
+                ctx.fillStyle = "#6c757d"; // رنگ طوسی تیره
+                ctx.font = "bold 22px 'Vazirmatn', Arial";
+                ctx.textAlign = "center";
+                ctx.fillText(chart.data.datasets[0].data[0].toFixed(0) + "%", width / 2, height / 1.1);
+                ctx.restore();
+            }
+        };
+
+        const createGauge = (id, color) => new Chart(document.getElementById(id), {
+            type: 'doughnut',
+            data: { datasets: [{ data: [0, 100], backgroundColor: [color, '#e9ecef'], borderWidth: 0 }] },
+            options: { rotation: -90, circumference: 180, cutout: '80%', maintainAspectRatio: false, plugins: { tooltip: { enabled: false } } },
+            plugins: [centerText]
+        });
+
+        const cpuC = createGauge('cpuDonut', '#0dcaf0');
+        const ramC = createGauge('ramDonut', '#198754');
+        const diskC = createGauge('diskDonut', '#fd7e14');
+
+        // دریافت خلاصه آمار با ارسال Username به بک‌اند
+        function fetchSummary() {
+
+            fetch(`/api/system/summary?username=${localUsername}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.avg_ram_today) document.getElementById('summaryAvgRam').innerText = data.avg_ram_today + " MB";
+                    if (data.max_goroutines) document.getElementById('summaryMaxThreads').innerText = data.max_goroutines;
+                    if (data.total_records) document.getElementById('summaryRecords').innerText = data.total_records;
+                }).catch(console.error);
+        }
+
+        let evtSource = null;
+        let autoStopTimer = null;
+        const btn = document.getElementById('liveToggleBtn');
+
+        function toggleConnection() {
+            if (evtSource) stopLiveStream();
+            else startLiveStream();
+        }
+
+        function startLiveStream() {
+            btn.className = "btn btn-info btn-sm text-white fw-bold px-3 shadow";
+            btn.innerHTML = `<i class="bi bi-broadcast me-1"></i> در حال دریافت...`;
+
+            // ارسال Username در درخواست استریم
+            evtSource = new EventSource(`/api/system/stream?username=${localUsername}`);
+
+            evtSource.onmessage = (e) => {
+                const d = JSON.parse(e.data);
+
+                // آپدیت دونات‌ها
+                cpuC.data.datasets[0].data = [d.cpu_percent, 100 - d.cpu_percent];
+                ramC.data.datasets[0].data = [d.ram_percent, 100 - d.ram_percent];
+                diskC.data.datasets[0].data = [d.disk_percent, 100 - d.disk_percent];
+                cpuC.update(); ramC.update(); diskC.update();
+
+                // رندر کردن ۲۰ آیتم اطلاعاتی در گرید
+                const details = [
+                    { label: "سیستم عامل", val: d.os_name, icon: "windows" },
+                    { label: "آپتایم سرور", val: (d.uptime / 3600).toFixed(1) + " ساعت", icon: "clock" },
+                    { label: "هسته‌های CPU", val: d.cpu_cores + " Core", icon: "cpu" },
+                    { label: "پروسه‌های فعال", val: d.procs, icon: "list-task" },
+                    { label: "کل فضای RAM", val: d.ram_total + " MB", icon: "memory" },
+                    { label: "فضای مصرفی RAM", val: d.ram_used + " MB", icon: "memory" },
+                    { label: "سوآپ کل", val: d.swap_total + " MB", icon: "hdd" },
+                    { label: "سوآپ مصرفی", val: d.swap_used + " MB", icon: "hdd" },
+                    { label: "کل دیسک", val: d.disk_total + " MB", icon: "device-hdd" },
+                    { label: "دیسک مصرفی", val: d.disk_used + " MB", icon: "device-hdd" },
+                    { label: "کانکشن‌های شبکه", val: d.net_conns, icon: "globe" },
+                    { label: "دیتای ارسالی", val: (d.net_sent / 1024 / 1024).toFixed(1) + " MB", icon: "cloud-arrow-up" },
+                    { label: "دیتای دریافتی", val: (d.net_recv / 1024 / 1024).toFixed(1) + " MB", icon: "cloud-arrow-down" },
+                    { label: "تخصیص حافظه Go", val: d.go_alloc_mb.toFixed(1) + " MB", icon: "box" },
+                    { label: "اشیاء زنده (Live)", val: d.live_objects, icon: "boxes" },
+                    { label: "تعداد تردها (Goroutine)", val: d.num_goroutine, icon: "diagram-3" },
+                    { label: "چرخه زباله‌روب (GC)", val: d.num_gc, icon: "trash" }
+                ];
+
+                const grid = document.getElementById('detailsGrid');
+                grid.innerHTML = details.map(item => `
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="p-2 border rounded bg-light text-secondary small d-flex justify-content-between">
+                        <span><i class="bi bi-${item.icon} me-1"></i> ${item.label}</span>
+                        <strong class="text-dark">${item.val}</strong>
+                    </div>
+                </div>
+            `).join('');
+            };
+
+            autoStopTimer = setTimeout(() => {
+                stopLiveStream();
+                btn.innerText = "پایان زمان - کلیک برای اتصال مجدد";
+            }, 30000);
+        }
+
+        function stopLiveStream() {
+            localStorage.removeItem("userLogs")
+
+            if (evtSource) { evtSource.close(); evtSource = null; }
+            clearTimeout(autoStopTimer);
+            btn.className = "btn btn-outline-info btn-sm fw-bold px-3";
+            btn.innerHTML = `<i class="bi bi-play-circle me-1"></i> اتصال لایو (۳۰ ثانیه)`;
+
+            cpuC.data.datasets[0].data = [0, 100]; cpuC.update();
+            ramC.data.datasets[0].data = [0, 100]; ramC.update();
+            diskC.data.datasets[0].data = [0, 100]; diskC.update();
+        }
+
+        window.onload = fetchSummary;
+    </script>
+</body>
+
+</html>
