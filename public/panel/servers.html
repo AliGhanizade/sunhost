@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SunHost - Servers</title>
+    <link rel="shortcut icon" href="./assets/picture/sun.png" type="image/x-icon">
+    <link rel="stylesheet" href="./assets/css/bootstrap.rtl.min.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap.rtl.min.css.map">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+
+<body class="bg-light">
+
+    <div class="container-fluid">
+        <div class="row">
+            {{template "sidebar" .}}
+            <div class="col-lg-10 p-3">
+                <nav class="navbar navbar-light bg-white border-bottom p-3 mb-4 shadow-sm rounded">
+                    <span class="navbar-brand fw-bold text-secondary">مدیریت زیرساخت سرورها</span>
+                    <span id="fullname" class="fw-bold text-secondary"></span>
+
+                </nav>
+
+                <div class="container-fluid">
+                    <div id="alert-container"></div>
+
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <div class="card border-0 shadow-sm p-3">
+                                <div class="row align-items-center g-3">
+                                    <div class="col-md-3">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <h6 class="fw-bold mb-0">سرور اصلی (Main_Node)</h6>
+                                            <span id="status-badge-Main_Node"
+                                                class="badge bg-success-subtle text-success d-flex align-items-center gap-1 border border-success-subtle">
+                                                <span class="ping-dot bg-success ping-flash"></span>
+                                                <span class="status-text">Online</span>
+                                            </span>
+                                        </div>
+                                        <small class="text-muted d-block mt-1">سیستم عامل: Ubuntu 24.04</small>
+                                    </div>
+                                    <div class="col-md-2 col-6">
+                                        <span class="text-muted small d-block">آدرس IP</span>
+                                        <span class="fw-semibold small">185.12.45.10</span>
+                                    </div>
+                                    <div class="col-md-2 col-6">
+                                        <span class="text-muted small d-block">تاریخ فعال‌سازی</span>
+                                        <span class="fw-semibold small">۱۴۰۲/۰۵/۱۲</span>
+                                    </div>
+                                    <div class="col-md-3 col-12">
+                                        <div class="row text-center text-md-start">
+                                            <div class="col-6">
+                                                <span class="text-muted bottom-info d-block">آخرین روشن شدن</span>
+                                                <span id="uptime-Main_Node"
+                                                    class="fw-semibold small text-success">۱۰:۱۵:۲۳</span>
+                                            </div>
+                                            <div class="col-6">
+                                                <span class="text-muted bottom-info d-block">آخرین خاموش شدن</span>
+                                                <span id="downtime-Main_Node"
+                                                    class="fw-semibold small text-secondary">---</span>
+                                            </div>
+                                        </div>
+                                        <div class="mt-2">
+                                            <span class="text-muted bottom-info d-block">ادمین‌های دارای دسترسی</span>
+                                            <span class="badge bg-dark text-light fw-bold border">Ali_Ghanizade</span>
+
+                                            <span class="badge bg-light text-dark border">amin_ahmadi</span>
+                                            <span class="badge bg-light text-dark border">ali_99</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-12 text-md-end">
+                                        <button id="btn-Main_Node" class="btn btn-danger btn-sm w-100"
+                                            onclick="toggleServerState('Main_Node')">خاموش کردن سرور</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="card border-0 shadow-sm p-3">
+                                <div class="row align-items-center g-3">
+                                    <div class="col-md-3">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <h6 class="fw-bold mb-0">لود بالانسر (Edge_LB)</h6>
+                                            <span id="status-badge-Edge_LB"
+                                                class="badge bg-danger-subtle text-danger d-flex align-items-center gap-1 border border-danger-subtle">
+                                                <span class="ping-dot bg-danger"></span>
+                                                <span class="status-text">Offline</span>
+                                            </span>
+                                        </div>
+                                        <small class="text-muted d-block mt-1">سیستم عامل: Alpine OS</small>
+                                    </div>
+                                    <div class="col-md-2 col-6">
+                                        <span class="text-muted small d-block">آدرس IP</span>
+                                        <span class="fw-semibold small">192.168.1.50</span>
+                                    </div>
+                                    <div class="col-md-2 col-6">
+                                        <span class="text-muted small d-block">تاریخ فعال‌سازی</span>
+                                        <span class="fw-semibold small">۱۴۰۳/۱۱/۰۵</span>
+                                    </div>
+                                    <div class="col-md-3 col-12">
+                                        <div class="row text-center text-md-start">
+                                            <div class="col-6">
+                                                <span class="text-muted bottom-info d-block">آخرین روشن شدن</span>
+                                                <span id="uptime-Edge_LB"
+                                                    class="fw-semibold small text-success">دیروز</span>
+                                            </div>
+                                            <div class="col-6">
+                                                <span class="text-muted bottom-info d-block">آخرین خاموش شدن</span>
+                                                <span id="downtime-Edge_LB"
+                                                    class="fw-semibold small text-danger">۰۸:۳۰:۰۰</span>
+                                            </div>
+                                        </div>
+                                        <div class="mt-2">
+                                            <span class="text-muted bottom-info d-block">ادمین‌های دارای دسترسی</span>
+                                            <span class="badge bg-dark text-light fw-bold border">Ali_Ghanizade</span>
+                                            <span class="badge bg-light text-dark border">sara_rad</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-12 text-md-end">
+                                        <button id="btn-Edge_LB" class="btn btn-success btn-sm w-100"
+                                            onclick="toggleServerState('Edge_LB')">روشن کردن سرور</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="card border-0 shadow-sm p-3">
+                                <div class="row align-items-center g-3">
+                                    <div class="col-md-3">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <h6 class="fw-bold mb-0">پایگاه داده (DB_Primary)</h6>
+                                            <span id="status-badge-DB_Primary"
+                                                class="badge bg-success-subtle text-success d-flex align-items-center gap-1 border border-success-subtle">
+                                                <span class="ping-dot bg-success ping-flash"></span>
+                                                <span class="status-text">Online</span>
+                                            </span>
+                                        </div>
+                                        <small class="text-muted d-block mt-1">سیستم عامل: Rocky Linux 9</small>
+                                    </div>
+                                    <div class="col-md-2 col-6">
+                                        <span class="text-muted small d-block">آدرس IP</span>
+                                        <span class="fw-semibold small">10.0.0.5</span>
+                                    </div>
+                                    <div class="col-md-2 col-6">
+                                        <span class="text-muted small d-block">تاریخ فعال‌سازی</span>
+                                        <span class="fw-semibold small">۱۴۰۱/۰۹/۲۰</span>
+                                    </div>
+                                    <div class="col-md-3 col-12">
+                                        <div class="row text-center text-md-start">
+                                            <div class="col-6">
+                                                <span class="text-muted bottom-info d-block">آخرین روشن شدن</span>
+                                                <span id="uptime-DB_Primary"
+                                                    class="fw-semibold small text-success">۰۴:۱۲:۰۹</span>
+                                            </div>
+                                            <div class="col-6">
+                                                <span class="text-muted bottom-info d-block">آخرین خاموش شدن</span>
+                                                <span id="downtime-DB_Primary"
+                                                    class="fw-semibold small text-secondary">---</span>
+                                            </div>
+                                        </div>
+                                        <div class="mt-2">
+                                            <span class="text-muted bottom-info d-block">ادمین‌های دارای دسترسی</span>
+                                            <span class="badge bg-dark text-light fw-bold border">Ali_Ghanizade</span>
+
+                                            <span class="badge bg-light text-dark border">ali_99</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-12 text-md-end">
+                                        <button id="btn-DB_Primary" class="btn btn-danger btn-sm w-100"
+                                            onclick="toggleServerState('DB_Primary')">خاموش کردن سرور</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="card border-0 shadow-sm p-3">
+                                <div class="row align-items-center g-3">
+                                    <div class="col-md-3">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <h6 class="fw-bold mb-0">سرور کانتینرها (K8s_Worker)</h6>
+                                            <span id="status-badge-K8s_Worker"
+                                                class="badge bg-success-subtle text-success d-flex align-items-center gap-1 border border-success-subtle">
+                                                <span class="ping-dot bg-success ping-flash"></span>
+                                                <span class="status-text">Online</span>
+                                            </span>
+                                        </div>
+                                        <small class="text-muted d-block mt-1">سیستم عامل: Ubuntu 22.04</small>
+                                    </div>
+                                    <div class="col-md-2 col-6">
+                                        <span class="text-muted small d-block">آدرس IP</span>
+                                        <span class="fw-semibold small">10.0.0.12</span>
+                                    </div>
+                                    <div class="col-md-2 col-6">
+                                        <span class="text-muted small d-block">تاریخ فعال‌سازی</span>
+                                        <span class="fw-semibold small">۱۴۰۳/۰۲/۱۵</span>
+                                    </div>
+                                    <div class="col-md-3 col-12">
+                                        <div class="row text-center text-md-start">
+                                            <div class="col-6">
+                                                <span class="text-muted bottom-info d-block">آخرین روشن شدن</span>
+                                                <span id="uptime-K8s_Worker" class="fw-semibold small text-success">۱
+                                                    هفته پیش</span>
+                                            </div>
+                                            <div class="col-6">
+                                                <span class="text-muted bottom-info d-block">آخرین خاموش شدن</span>
+                                                <span id="downtime-K8s_Worker"
+                                                    class="fw-semibold small text-secondary">---</span>
+                                            </div>
+                                        </div>
+                                        <div class="mt-2">
+                                            <span class="text-muted bottom-info d-block">ادمین‌های دارای دسترسی</span>
+                                            <span class="badge bg-dark text-light fw-bold border">Ali_Ghanizade</span>
+                                            <span class="badge bg-light text-dark border">amin_ahmadi</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-12 text-md-end">
+                                        <button id="btn-K8s_Worker" class="btn btn-danger btn-sm w-100"
+                                            onclick="toggleServerState('K8s_Worker')">خاموش کردن سرور</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="card border-0 shadow-sm p-3">
+                                <div class="row align-items-center g-3">
+                                    <div class="col-md-3">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <h6 class="fw-bold mb-0">سرور حافظه موقت (Redis_Cache)</h6>
+                                            <span id="status-badge-Redis_Cache"
+                                                class="badge bg-danger-subtle text-danger d-flex align-items-center gap-1 border border-danger-subtle">
+                                                <span class="ping-dot bg-danger"></span>
+                                                <span class="status-text">Offline</span>
+                                            </span>
+                                        </div>
+                                        <small class="text-muted d-block mt-1">سیستم عامل: Debian 12</small>
+                                    </div>
+                                    <div class="col-md-2 col-6">
+                                        <span class="text-muted small d-block">آدرس IP</span>
+                                        <span class="fw-semibold small">192.168.1.65</span>
+                                    </div>
+                                    <div class="col-md-2 col-6">
+                                        <span class="text-muted small d-block">تاریخ فعال‌سازی</span>
+                                        <span class="fw-semibold small">۱۴۰۴/۰۱/۱۰</span>
+                                    </div>
+                                    <div class="col-md-3 col-12">
+                                        <div class="row text-center text-md-start">
+                                            <div class="col-6">
+                                                <span class="text-muted bottom-info d-block">آخرین روشن شدن</span>
+                                                <span id="uptime-Redis_Cache" class="fw-semibold small text-success">۳
+                                                    روز پیش</span>
+                                            </div>
+                                            <div class="col-6">
+                                                <span class="text-muted bottom-info d-block">آخرین خاموش شدن</span>
+                                                <span id="downtime-Redis_Cache"
+                                                    class="fw-semibold small text-danger">۱۱:۰۰:۰۰</span>
+                                            </div>
+                                        </div>
+                                        <div class="mt-2">
+                                            <span class="text-muted bottom-info d-block">ادمین‌های دارای دسترسی</span>
+                                            <span class="badge bg-dark text-light fw-bold border">Ali_Ghanizade</span>
+                                            <span class="badge bg-light text-dark border">ali_99</span>
+                                            <span class="badge bg-light text-dark border">sara_rad</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-12 text-md-end">
+                                        <button id="btn-Redis_Cache" class="btn btn-success btn-sm w-100"
+                                            onclick="toggleServerState('Redis_Cache')">روشن کردن سرور</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script src="./assets/js/bootstrap.bundle.min.js"></script>
+    <script src="./assets/js/bootstrap.bundle.min.js.map"></script>
+
+    <script src="./assets/js/panel.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataBase</title>
+    <link rel="stylesheet" href="./assets/css/bootstrap.rtl.min.css">
+<link rel="stylesheet" href="./assets/css/bootstrap.rtl.min.css.map">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+
+<body class="bg-light">
+    <div class="container-fluid">
+        <div class="row">
+
+            {{template "sidebar" .}}
+
+            <div class="col-lg-10 p-0">
+                <nav class="navbar navbar-light bg-white border-bottom p-3 mb-4 shadow-sm">
+                    <div class="container-fluid"><span class="navbar-brand fw-bold text-secondary">وضعیت
+                            دیتابیس‌ها</span>
+                        <span id="fullname" class="fw-bold text-secondary"></span>
+                    </div>
+                </nav>
+
+                <div class="container-fluid px-4">
+                    <div id="alert-container"></div>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="card border-0 shadow-sm p-3">
+                                <h6 class="fw-bold"><i class="bi bi-layers text-primary me-2"></i>PostgreSQL-Items</h6>
+                                <p class="small text-muted">کانکشن‌های فعال: 42/100</p>
+                                <button class="btn btn-outline-info btn-sm w-100"
+                                    onclick="optimizeDb('Items')">بهینه‌سازی دیتابیس</button>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card border-0 shadow-sm p-3">
+                                <h6 class="fw-bold"><i class="bi bi-layers text-primary me-2"></i>PostgreSQL-Admin</h6>
+                                <p class="small text-muted">کانکشن‌های فعال: 42/100</p>
+                                <button class="btn btn-outline-info btn-sm w-100"
+                                    onclick="optimizeDb('Admin')">بهینه‌سازی دیتابیس</button>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card border-0 shadow-sm p-3">
+                                <h6 class="fw-bold"><i class="bi bi-lightning-charge text-warning me-2"></i>Redis Cache
+                                </h6>
+                                <p class="small text-muted">حافظه مصرفی: 256 مگابایت</p>
+                                <button class="btn btn-outline-warning btn-sm w-100" onclick="clearCache()">پاکسازی
+                                    حافظه کش</button>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card border-0 shadow-sm p-3">
+                                <h6 class="fw-bold"><i class="bi bi-lightning-charge text-warning me-2"></i>Redis Cache
+                                </h6>
+                                <p class="small text-muted">حافظه مصرفی: 128 مگابایت</p>
+                                <button class="btn btn-outline-warning btn-sm w-100" onclick="clearCache()">پاکسازی
+                                    حافظه کش</button>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card border-0 shadow-sm p-3">
+                                <h6 class="fw-bold"><i class="bi bi-lightning-charge text-warning me-2"></i>Redis Cache
+                                </h6>
+                                <p class="small text-muted">حافظه مصرفی: 512 مگابایت</p>
+                                <button class="btn btn-outline-warning btn-sm w-100" onclick="clearCache()">پاکسازی
+                                    حافظه کش</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script src="./assets/js/bootstrap.bundle.min.js"></script>
+    <script src="./assets/js/bootstrap.bundle.min.js.map"></script>
+
+    <script src="./assets/js/panel.js"></script>
+</body>
+
+</html>
