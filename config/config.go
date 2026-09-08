@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"log"
 
-	_ "modernc.org/sqlite" 
+	_ "modernc.org/sqlite"
 )
 
 var DB *sql.DB
@@ -15,13 +15,18 @@ func InitDB() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	DB.Exec("PRAGMA foreign_keys = ON;")
+	// File-backed SQLite allows only one writer at a time; limiting the pool
+	// to a single connection avoids "database is locked" errors.
+	DB.SetMaxOpenConns(1)
+	if _, err := DB.Exec("PRAGMA foreign_keys = ON;"); err != nil {
+		log.Fatal(err)
+	}
 }
 
 func MigrateUser() {
 	_, err := DB.Exec(`
 		CREATE TABLE IF NOT EXISTS users (
-			id INTEGER PRIMARY KEY AUTOINCREMENT,	
+			id INTEGER PRIMARY KEY AUTOINCREMENT,
 			full_name TEXT NOT NULL,
 			username TEXT NOT NULL UNIQUE,
 			email TEXT NOT NULL UNIQUE,
@@ -44,9 +49,10 @@ func MigrateSystemStat() {
 		);
 	`)
 	if err != nil {
-		log.Fatal("خطا در ساخت جدول system_stats: ", err)
+		log.Fatal("error creating system_stats table: ", err)
 	}
 }
+
 func MigrateUserLog() {
 	_, err := DB.Exec(`
 	CREATE TABLE IF NOT EXISTS logs (
@@ -57,26 +63,9 @@ func MigrateUserLog() {
 		time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 		username TEXT NOT NULL,
 		FOREIGN KEY (username) REFERENCES users(username)
-		
 	);`)
 
 	if err != nil {
 		log.Fatal(err)
 	}
 }
-
-// func MigarateServer() {
-// 	_, err := DB.Exec(`
-// 		CREATE TABLE IF NOT EXISTS servers (
-// 			id INTEGER PRIMARY KEY AUTOINCREMENT,
-// 			name TEXT NOT NULL,
-// 			ip_address TEXT NOT NULL UNIQUE,
-// 			port INTEGER NOT NULL,
-// 			username TEXT NOT NULL,
-// 			FOREIGN KEY (username) REFERENCES users(username)
-// 		);
-// 	`)
-// 	if err != nil {
-// 		log.Fatal(err)
-// 	}
-// }

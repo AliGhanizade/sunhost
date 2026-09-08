@@ -4,10 +4,10 @@ import "sunhost/config"
 
 type User struct {
 	ID       int    `json:"id"`
-	FullName string `json:"full_name"`
-	Username string `json:"username"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
+	FullName string `json:"full_name" binding:"required"`
+	Username string `json:"username" binding:"required,min=4"`
+	Email    string `json:"email" binding:"required,email"`
+	Password string `json:"password" binding:"required,min=4"`
 }
 
 func (u *User) TableName() string {
