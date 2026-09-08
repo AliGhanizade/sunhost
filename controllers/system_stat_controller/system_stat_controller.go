@@ -1,4 +1,4 @@
-package system_stat_cotroller
+package system_stat_controller
 
 import (
 	"encoding/json"

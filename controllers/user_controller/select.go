@@ -6,6 +6,7 @@ import (
 	"sunhost/model"
 
 	"github.com/gin-gonic/gin"
+	"golang.org/x/crypto/bcrypt"
 )
 
 func (uc *UserController) Select(ctx *gin.Context) {
@@ -23,21 +24,26 @@ func (uc *UserController) Select(ctx *gin.Context) {
 	var user model.User
 
 	if err := user.GetByUsername(req.Username); err != nil {
-		ctx.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid username or password"})
 		return
 	}
 
-	if req.Password != user.Password {
-		logC := log_controller.LogController{}
-        ctx.Set("action", "Failed login")
-        ctx.Set("username", req.Username)
-        logC.Create(ctx)
+	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.Password)); err != nil {
+		ctx.Set("action", "Failed login")
+		ctx.Set("username", req.Username)
+		logC.Create(ctx)
 
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid username or password"})
 		return
 	}
-	ctx.Set("action", "User loggin")
+	ctx.Set("action", "User logged in")
 	ctx.Set("username", user.Username)
 
 	logC.Create(ctx)
-	ctx.JSON(http.StatusOK, gin.H{"user": user})
+	ctx.JSON(http.StatusOK, gin.H{"user": gin.H{
+		"id":        user.ID,
+		"full_name": user.FullName,
+		"username":  user.Username,
+		"email":     user.Email,
+	}})
 }

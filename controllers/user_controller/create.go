@@ -6,6 +6,7 @@ import (
 	"sunhost/model"
 
 	"github.com/gin-gonic/gin"
+	"golang.org/x/crypto/bcrypt"
 )
 
 func (uc *UserController) Create(ctx *gin.Context) {
@@ -26,6 +27,14 @@ func (uc *UserController) Create(ctx *gin.Context) {
 		ctx.JSON(http.StatusConflict, gin.H{"error": "Email already exists"})
 		return
 	}
+
+	hash, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to process password"})
+		return
+	}
+	user.Password = string(hash)
+
 	if err := user.Create(); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create user"})
 		return

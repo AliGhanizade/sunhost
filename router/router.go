@@ -1,11 +1,11 @@
-package routes
+package router
 
 import (
 	"html/template"
 	"log"
 	"net/http"
 	"sunhost/controllers/log_controller"
-	"sunhost/controllers/system_stat_cotroller"
+	"sunhost/controllers/system_stat_controller"
 	"sunhost/controllers/user_controller"
 
 	"github.com/gin-gonic/gin"
@@ -26,7 +26,7 @@ func SetupRouter() *gin.Engine {
 	r.SetHTMLTemplate(tmpl)
 	userC := user_controller.UserController{}
 	logC := log_controller.LogController{}
-	sysC := system_stat_cotroller.SystemController{}
+	sysC := system_stat_controller.SystemController{}
 	api := r.Group("/api")
 	{
 		users := api.Group("/users")
